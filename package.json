@@ -1,0 +1,35 @@
+{
+  "name": "scriptgenerator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "This script generator has to objectiveto provide to the user an immersive experience through it's music listening to write the most relevent Music video",
+  "author": {
+      "name" :"Marius Boucard Bocciarelli",
+      "email":"marius.boucard-bocciarelli@laposte.net"
+    },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
+    "rebuild": "electron-rebuild"
+  },
+  "main": "background.js",
+  "dependencies": {
+   
+    "babel-runtime": "^6.26.0",
+    "core-js": "^3.30.2",
+    "vue": "^3.2.13"
+
+  },
+  "devDependencies": {
+
+    "@vue/cli-service": "~5.0.0",
+    "electron": "^24.2.0",
+    "electron-devtools-installer": "^3.1.0",
+    "electron-rebuild": "^3.2.9",
+    "vue-cli-plugin-electron-builder": "^2.1.1"
+  }
+}
