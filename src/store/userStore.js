@@ -13,6 +13,6 @@ export function getUserStore(){
         return instance
     }
     else {
-        instance = new UserStore()
+        return instance = new UserStore()
     }
 }

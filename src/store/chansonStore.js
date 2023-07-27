@@ -1,4 +1,4 @@
-export class chansonStore{
+export class ChansonStore{
     constructor(){
         this.title = '',
         this.audio = '',
@@ -16,11 +16,20 @@ export class chansonStore{
     setLyrics(lyrics){
         this.lyrics = lyrics
     }
+    setLyricsLineSplit(lls){
+        this.lyricsLineSplit = lls
+    }
+    getLines(){
+        return this.lyricsLineSplit
+    }
     addChord(chord){
         this.chordList.push(chord)
     }
     removeAllChords(){
         this.chordList = []
+    }
+    addTimeStamp(timeStamp){
+        this.timeStampLignes.push()
     }
 
 }
@@ -28,10 +37,12 @@ export class chansonStore{
 
 let instance = undefined
 export function getChansonStore(){
-    if(instance){
+    console.log("get",instance)
+    if(instance !== undefined){
         return instance
     }
     else {
-        instance = new chansonStore()
+        console.log("on crée")
+        return instance = new ChansonStore()
     }
 }

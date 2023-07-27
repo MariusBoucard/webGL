@@ -4,9 +4,9 @@
   "private": true,
   "description": "This script generator has to objectiveto provide to the user an immersive experience through it's music listening to write the most relevent Music video",
   "author": {
-      "name" :"Marius Boucard Bocciarelli",
-      "email":"marius.boucard-bocciarelli@laposte.net"
-    },
+    "name": "Marius Boucard Bocciarelli",
+    "email": "marius.boucard-bocciarelli@laposte.net"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -18,14 +18,15 @@
   },
   "main": "background.js",
   "dependencies": {
-   
     "babel-runtime": "^6.26.0",
     "core-js": "^3.30.2",
+    "element-ui": "^2.15.13",
+    "fs": "^0.0.1-security",
+    "nanoid": "^4.0.2",
+    "path": "^0.12.7",
     "vue": "^3.2.13"
-
   },
   "devDependencies": {
-
     "@vue/cli-service": "~5.0.0",
     "electron": "^24.2.0",
     "electron-devtools-installer": "^3.1.0",

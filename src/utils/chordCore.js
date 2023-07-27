@@ -1,6 +1,6 @@
 export class ChordCore {
     
-    addAccord(timeStanp,Chord){
+    addAccord(timeStamp,Chord){
 
     }
 }
