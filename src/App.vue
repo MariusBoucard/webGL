@@ -9,7 +9,7 @@
       <Tab1Component @newParoles="updateParoles($event)"></Tab1Component>
     </div>
     <div v-if="currentTab === 2"> 
-      <Tab2Component :lines="lines"></Tab2Component>  
+      <Tab2Component @newAssociation="addAssociation($event)" :association="association" :lines="lines"></Tab2Component>  
     </div>
     pute
   </div>
@@ -34,10 +34,14 @@ export default {
     updateParoles(evt){
       this.songCore.updateParoles(evt)
       this.lines = this.chansonStore.getLines()
+    },
+    addAssociation(evt){
+      this.association.push(evt)
     }
   },
   data() {
     return {
+      association : [],
       currentTab : 2,
       lines : '',
       paroles : '',

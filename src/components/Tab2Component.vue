@@ -6,7 +6,7 @@
             </ul>
         </div>
         <div class="column">
-                <chordsComponent></chordsComponent>
+                <chordsComponent @newAssociation="passAsso($event)" :association="association"></chordsComponent>
 </div>
     </div>
 </template>
@@ -17,7 +17,13 @@ export default{
         chordsComponent,
     },
     props : {
+        association : {required : true , type : [Object]},
         lines : {required : true, type : [String]}
+    },
+    methods : {
+        passAsso(evt){
+            this.$emit('newAssociation',evt)
+        }
     }
 }
 </script>
