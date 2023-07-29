@@ -5,17 +5,39 @@ export class SongCore{
         this.chansonStore = getChansonStore()
     }
     loadSong(){
-
+        //TODO brancher avec la fonction de base : plus simple de store dans le main
     }
     changeName(name){
         this.chansonStore.setTitle(name)
     }
+    /**
+     * Rajoute un time stamp, besoin struct ?
+     * @param {*} time 
+     */
     addTimeStamp(time){
-
+        this.chansonStore.addTimeStamp(time)
     }
+    /**
+     * Return les lignes avec leurs temps de debut et de fin sous forme d'un tableau d'objet
+     * { lineID : "",
+     * lineDeb : ,
+     * lineFin : ''}
+     */
     computeTimeStampLine(){
-
+        var finish = []
+        var times = this.chansonStore.getTimeStamp()
+        times = times.sort((a,b)=> a-b)
+        console.log(times,'should be sorted')
+        for(var i =0;i<times.length-1;i++){
+            finish.push({
+                lineId : i,
+                lineDeb : times[i],
+                lineFin : times[i+1]
+            })
+        }
+        return finish
     }
+
     updateParoles(text){
         console.log(this.chansonStore)
         this.chansonStore.setLyrics(text)
@@ -24,9 +46,11 @@ export class SongCore{
     parseLyricsInLine(text){
         var tab = []
         tab = text.split('\n')
-        console.log(tab)
-        return tab
-
+        var lines = []
+        tab.forEach((a,index)=> lines.push({
+            index : index, text: a
+        }))
+        return lines
     }
     giveLineNumeroForTime(time){
         return //le numero de la ligne

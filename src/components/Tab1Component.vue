@@ -104,12 +104,8 @@ A thousand stars taking in a swarm
 
             const reader = new FileReader();
             reader.onload = (e) => {
-                // Convert the file buffer to a base64 data URL
-                const base64Data = e.target.result.split(',')[1];
-                console.log("puite")
-                console.log(file)
-                // Save the base64 data URL to the component's data
                 this.audioSrc = URL.createObjectURL(file);
+                this.$emit('songLoaded', URL.createObjectURL(file))
                 };
             reader.readAsDataURL(file);
             }

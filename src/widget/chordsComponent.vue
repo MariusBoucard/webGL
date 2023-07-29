@@ -23,17 +23,12 @@ export default{
     data(){
         return {
             currentChord : '',
-       
-
         }
     },
     methods : {
         newAssociation(event) {
             this.associer =true
           // Assuming you want the ASCII code of the pressed key
-          console.log("smegma")
-          // If you want the actual character of the pressed key, use event.key instead
-          // this.keyNumber = event.key;
 
           this.associer =false
           this.$emit('newAssociation',{chord : this.currentChord, touche : event.keyCode})

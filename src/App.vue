@@ -6,10 +6,10 @@
 
     <div v-if="currentTab ===1"> 
 
-      <Tab1Component @newParoles="updateParoles($event)"></Tab1Component>
+      <Tab1Component @songLoaded="newSongLoaded($event)" @newParoles="updateParoles($event)"></Tab1Component>
     </div>
     <div v-if="currentTab === 2"> 
-      <Tab2Component @newAssociation="addAssociation($event)" :association="association" :lines="lines"></Tab2Component>  
+      <Tab2Component :audioSrc="audioSrc" @newAssociation="addAssociation($event)" :association="association" :lines="lines"></Tab2Component>  
     </div>
     pute
   </div>
@@ -31,6 +31,9 @@ export default {
 
   },
   methods: {
+    newSongLoaded(evt){
+      this.audioSrc = evt
+    },
     updateParoles(evt){
       this.songCore.updateParoles(evt)
       this.lines = this.chansonStore.getLines()
@@ -46,7 +49,8 @@ export default {
       lines : '',
       paroles : '',
       songCore : undefined,
-      chansonStore : undefined
+      chansonStore : undefined,
+      audioSrc : undefined
     }
   },
   created() {

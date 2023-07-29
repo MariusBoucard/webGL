@@ -5,7 +5,7 @@ export class ChansonStore{
         this.lyrics = '',
         this.chordList = [],
         this.lyricsLineSplit = []
-        this.timeStampLignes = []
+        this.timeStamp = []
     }
     setTitle(title){
         this.title = title
@@ -29,7 +29,10 @@ export class ChansonStore{
         this.chordList = []
     }
     addTimeStamp(timeStamp){
-        this.timeStampLignes.push()
+        this.timeStamp.push(timeStamp)
+    }
+    getTimeStamp(){
+        return this.timeStamp
     }
 
 }
