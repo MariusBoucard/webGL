@@ -29,10 +29,13 @@ export class SongCore{
         times = times.sort((a,b)=> a-b)
         console.log(times,'should be sorted')
         for(var i =0;i<times.length-1;i++){
+            console.log(this.chansonStore.getChordList())
+            const chords = this.chansonStore.getChordList().find(chord => chord.time < times[i+1] && chord.time > times[i])
             finish.push({
                 lineId : i,
                 lineDeb : times[i],
-                lineFin : times[i+1]
+                lineFin : times[i+1],
+                chordInLine : chords
             })
         }
         return finish
@@ -51,6 +54,16 @@ export class SongCore{
             index : index, text: a
         }))
         return lines
+    }
+    addChord(chord){
+    this.chansonStore.addChord(chord)
+    this.renderText()
+    }
+    getChordList(){
+        return this.chansonStore.getChordList()
+    }
+    renderText(){
+        //TODO : rend le text nickel de la chanson
     }
     giveLineNumeroForTime(time){
         return //le numero de la ligne

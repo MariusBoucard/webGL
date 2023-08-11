@@ -4,10 +4,11 @@
         <audio :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
             <source src="audioSrc" type="audio/mpeg">
         </audio>
-        <button @click="changeRecording()">changeRec</button>
+        <!-- Button for recording lines -->
+        <button @click="changeRecording()">record de line</button>
         <div class="column">
             <ul>
-                <li v-for="line in lines" :key="line">{{ line.text }}</li>
+                <li v-for="line in lines" :key="line"> {{ line }}    {{ line.text }} {{ getTimeStampDebut(line.index) }} {{ getTimeStampFin(line.index) }}  </li>
             </ul>
             <hr>
             <ul>
@@ -82,6 +83,19 @@ export default {
             this.currentTime = this.$refs.audioPlayer.currentTime
             //recuperation du current time and renvoi le tableau des lignes qui vont bien
             
+        },
+        getTimeStampDebut(lineIndex){
+            
+            const line = this.timeStampLines.find(lin => lin.lineId === lineIndex)
+            if(line){
+              return line.lineDeb  
+            }
+        },
+        getTimeStampFin(lineIndex){
+            const line = this.timeStampLines.find(lin => lin.lineId === lineIndex)
+            if(line){
+              return line.lineFin  
+            }
         },
         changeRecording() {
             this.recording = !this.recording

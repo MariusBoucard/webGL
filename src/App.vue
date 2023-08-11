@@ -11,6 +11,9 @@
     <div v-if="currentTab === 2"> 
       <Tab2Component :audioSrc="audioSrc" @newAssociation="addAssociation($event)" :association="association" :lines="lines"></Tab2Component>  
     </div>
+    <div>
+      <Tab3Component :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
+    </div>
     pute
   </div>
 </template>
@@ -20,12 +23,14 @@ import Tab1Component from './components/Tab1Component.vue';
 import Tab2Component from './components/Tab2Component.vue'
 import { SongCore } from './utils/songCore';
 import { getChansonStore } from './store/chansonStore';
+import Tab3Component from './components/Tab3Component.vue';
 
 export default {
   name: 'App',
   components: {
     Tab1Component,
-    Tab2Component
+    Tab2Component,
+    Tab3Component
 },
   computed: {
 
@@ -40,13 +45,16 @@ export default {
     },
     addAssociation(evt){
       this.association.push(evt)
+    },
+    addLineStamp(evt){
+      
     }
   },
   data() {
     return {
-      association : [],
+      association : [{chord : "F" , touche : 70}],
       currentTab : 2,
-      lines : '',
+      lines : [],
       paroles : '',
       songCore : undefined,
       chansonStore : undefined,

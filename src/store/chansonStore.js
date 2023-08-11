@@ -25,6 +25,9 @@ export class ChansonStore{
     addChord(chord){
         this.chordList.push(chord)
     }
+    getChordList(){
+        return this.chordList
+    }
     removeAllChords(){
         this.chordList = []
     }
