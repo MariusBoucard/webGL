@@ -3,6 +3,10 @@
   <div>
     <button @click="currentTab =1">1</button>
     <button @click="currentTab =2">2</button>
+    <label for="F">LoadFile</label>
+    <input id="F" type="file" @change="loadFile($event)" style="visibility:hidden; width:0px">
+
+    <button @click="saveFile()">SaveFile</button>
 
     <div v-if="currentTab ===1"> 
 
@@ -24,6 +28,7 @@ import Tab2Component from './components/Tab2Component.vue'
 import { SongCore } from './utils/songCore';
 import { getChansonStore } from './store/chansonStore';
 import Tab3Component from './components/Tab3Component.vue';
+import { dialog } from 'electron';
 
 export default {
   name: 'App',
@@ -36,8 +41,19 @@ export default {
 
   },
   methods: {
+    saveFile(){
+      this.chansonStore.saveSong("/home/marius")
+    },
+    loadFile(evt){
+      const selectedFile = evt.target.files[0]
+      if(selectedFile){
+        this.chansonStore.loadFile(selectedFile)
+        this.$forceUpdate()
+      }
+    },
     newSongLoaded(evt){
       this.audioSrc = evt
+      this.songCore.setSong(this.audioSrc)
     },
     updateParoles(evt){
       this.songCore.updateParoles(evt)

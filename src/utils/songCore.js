@@ -62,6 +62,9 @@ export class SongCore{
     getChordList(){
         return this.chansonStore.getChordList()
     }
+    setSong(audioSrc){
+        this.chansonStore.setSong(audioSrc)
+    }
     renderText(){
         //TODO : rend le text nickel de la chanson
     }
