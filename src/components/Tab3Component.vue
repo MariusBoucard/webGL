@@ -16,6 +16,7 @@
        {{ this.recording }}
        {{ this.chordList }}
        {{ this.lineTime }}
+       {{ this.chansonStore }}
        <ul>
         <li v-for="line in linesNickel">
             {{ line }}
@@ -26,12 +27,13 @@
 </template>
 <script>
 import { SongCore } from '@/utils/songCore';
-
+import { getChansonStore } from '../store/chansonStore'
 export default{
     data(){
         return {
             recording : false,
             songCore : new SongCore(),
+            chansonStore : undefined,
             currentTime :0,
             chordList : [],
             lineTime : []
@@ -41,11 +43,10 @@ export default{
         association : {required : true, type : [Object]},
         audioSrc: { required: true },
         lines: { required: true, type: [Object] },
-
-
     },
     mounted(){
         this.audioPlayer = this.$refs.audioPlayer; // Assign the audio player reference on mount
+        this.chansonStore = getChansonStore()
     },
     computed : {
         playingIndex(){
