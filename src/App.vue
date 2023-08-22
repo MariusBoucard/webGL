@@ -3,7 +3,7 @@
   <div>
     <button @click="currentTab =1">1</button>
     <button @click="currentTab =2">2</button>
-
+    <CreateChordComponent></CreateChordComponent>
     <div v-if="currentTab ===1"> 
 
       <Tab1Component @songLoaded="newSongLoaded($event)" @newParoles="updateParoles($event)"></Tab1Component>
@@ -24,13 +24,15 @@ import Tab2Component from './components/Tab2Component.vue'
 import { SongCore } from './utils/songCore';
 import { getChansonStore } from './store/chansonStore';
 import Tab3Component from './components/Tab3Component.vue';
+import CreateChordComponent from './widget/createChordComponent.vue';
 
 export default {
   name: 'App',
   components: {
     Tab1Component,
     Tab2Component,
-    Tab3Component
+    Tab3Component,
+    CreateChordComponent
 },
   computed: {
 
