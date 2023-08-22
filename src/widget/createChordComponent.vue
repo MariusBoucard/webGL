@@ -139,6 +139,7 @@ export default {
         'name' : this.accord,
         'tuning' : this.tuning,
         'nbStrings' : this.strings,
+        'caseDepart' : this.caseDepart,
         'nbCases' : this.frets,
         'selectedFrets' : this.selectedFrets
       })

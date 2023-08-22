@@ -3,7 +3,7 @@
   <div>
     <button @click="currentTab =1">1</button>
     <button @click="currentTab =2">2</button>
-    <CreateChordComponent></CreateChordComponent>    <label for="F">LoadFile</label>
+       <label for="F">LoadFile</label>
     <input id="F" type="file" @change="loadFile($event)" style="visibility:hidden; width:0px">
 
     <button @click="saveFile()">SaveFile</button>
@@ -35,7 +35,6 @@ export default {
     Tab1Component,
     Tab2Component,
     Tab3Component,
-    CreateChordComponent
 },
   computed: {
 

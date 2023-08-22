@@ -1,20 +1,33 @@
 <template>
+   <div>
+
+       <div>
+           <div  class="horizontal-line">
+            <div style="width:1000px;" v-for="chord in association">
+                <ChordDisplay v-if="chord.accord" :chord=chord.accord></ChordDisplay>
+            </div>
+            
+        </div>
+    </div>
     <div class="container">
-        {{ this.currentTime }}
-        <audio :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
-            <source src="audioSrc" type="audio/mpeg">
-        </audio>
-        <!-- Button for recording lines -->
-        <button @click="changeRecording()">record de line</button>
+        <div class='column'>
+            {{ this.currentTime }}
+            <audio :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
+                <source src="audioSrc" type="audio/mpeg">
+            </audio>
+            <!-- Button for recording lines -->
+            <button @click="changeRecording()">record de line</button>
+            
+        </div>
         <div class="column">
             <ul>
                 <li v-for="line in lines" :key="line"> {{ line }}    {{ line.text }} {{ getTimeStampDebut(line.index) }} {{ getTimeStampFin(line.index) }}  </li>
             </ul>
             <hr>
             <ul>
-            <li v-for="time in lineToDisplay" :key="time"> {{ time }}</li>
-        </ul>
-
+                <li v-for="time in lineToDisplay" :key="time"> {{ time }}</li>
+            </ul>
+            
         </div>
         <div class="column">
             <chordsComponent @newAssociation="passAsso($event)" :association="association"></chordsComponent>
@@ -23,14 +36,17 @@
             <li v-for="time in timeStampLines" :key="time"> {{ time }}</li>
         </ul>
     </div>
+</div>
 </template>
 <script>
 import { SongCore } from '@/utils/songCore';
 import chordsComponent from '../widget/chordsComponent.vue'
 import { getChansonStore } from '@/store/chansonStore';
+import ChordDisplay from '@/widget/chordDisplay.vue';
 export default {
     components: {
         chordsComponent,
+        ChordDisplay
     },
     props: {
         association: { required: true, type: [Object] },
@@ -120,7 +136,11 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
+.horizontal-line{
+    width : 100%;
+    height: 1000px;
+}
 .container {
     display: flex
 }
