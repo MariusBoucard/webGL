@@ -1,84 +1,82 @@
 <template>
     <div>
-   
-        <input type="file" @change="handleFileChange">
-        <audio :src="audioSrc" ref="audioPlayer" controls>
-      <source src="audioSrc" type="audio/mpeg">
+        <div class="custom-container">
+    <input class="custom-input-style" type="file" @change="handleFileChange">
+    <audio class="custom-audio-style" :src="audioSrc" ref="audioPlayer" controls>
+      <source :src="audioSrc" type="audio/mpeg">
     </audio>
-
-    <h1>Text paroles</h1>
-    <textarea @blur="updateParoles" class="textArea" v-model="paroles">
-
-    </textarea>
+  </div>    
+  <div class="custom-container2">
+    <h1 class="custom-h1">Text paroles</h1>
+    <textarea @blur="updateParoles" class="custom-textarea" v-model="paroles"></textarea>
+  </div>
     </div>
 </template>
 <script>
+import { getChansonStore } from '@/store/chansonStore';
+
 
 export default{
+   props :{
+    parole : { required : true}
+   },
     data(){
         return {
             audioSrc : '',
             songName : '',
             song : '',
-            paroles : this.parolesInit(),
+            paroles : this.parole
         }
     },
     methods : {
         parolesInit(){
             return   `
-Paroles de Take a seat
+PAll my friends can see my Pain 
+Want to bury me in flames
+All my life is lead by Shame
+I would fall on the walk of fame
 
-This is how I began my journey
-as an outlander in the space
-I made in this inhospitable world
-A place where I feel safe
+Thiiii
 
-step after step, I dispel the fog
-exploring this brand new dimension
-some instruments as a torchlight
-I pursue my ascension
+I m always thinking ov
+My penis is looking for Love
+The only who can judge me is above
+I would rape my cheersloves
 
-this is why I climb the ladder
-even if i m feared of height
-we both feel the same
-and both belong to the art
+Tihiiiii
 
-Come on
-Take a sit, we'll talk about our universe
-a place of refuge when our feet can t find the earth
-drew by our god's hands, we set its shape
-According to our desire, we sculpt its landscape
+I m always thinking ov
+My penis is looking for Love
+The only who can judge me is above
+I would rape my cheersloves
 
-Erased on life
-Somehow lunatic
-I don't belong to this world
-but still beg to get in it
+I would put my dick in your face
+While your sleep because you re sick
+U'll think that's god who bless
+That is the start of your race
 
-Can you feel the blur that is Storming around
-as venus fingers slept in mine
-peoples got their flame blown down
-a lead blanket, overlooks the town
+Thiiii
 
-When the compass lost the north
-As things are getting worst
-the storm will stay raging outside
-as we've got our shelter to hide
+I m always thinking ov
+My penis is looking for Love
+The only who can judge me is above
+I would rape my cheersloves
 
-I approch the stars at risk of burning my wings
-we break through the fourth walls
-and so unveiled the last part of unknown
-And baby know that by now we're free
+The beginning of our Relation
+While you re in suffocation
+Sucking without Reason
+This is my last Penetration
 
-On event horizon
-Man edge their righteous to gods
-To borrow their abilities
-To dispel the fog
+Thiii
+I m always thinking ov
+My penis is looking for Love
+The only who can judge me is above
+I would rape my cheersloves
 
-From the hand of creator
-I paint with a trembling hand
-Some galaxies composed by
-A thousand stars taking in a swarm
-
+I would rape
+think ov
+my cheerslove
+Up above
 `
             
         },
@@ -113,9 +111,55 @@ A thousand stars taking in a swarm
     }
 }
 </script>
-<style>
+<style scoped>
+ .custom-h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .custom-textarea {
+      width: 100%;
+      padding: 10px;
+      min-height:500px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  .custom-container {
+      display: flex;
+      width: 100%;
+      padding: 10px;
+      background-color: #e0e0e0;
+    }
+    .custom-container2 {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+      padding: 10px;
+      background-color: #e0e0e0;
+    }
+    .custom-input-style {
+      flex-grow: 1;
+      flex-shrink: 1;
+      padding: 10px;
+      margin: 0 5px;
+      background-color: #3498db;
+      color: white;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+    }
+    
+    .custom-audio-style {
+      flex-grow: 1;
+      flex-shrink: 1;
+      margin: 0 5px;
+    }
 .textArea{
+    flex-grow: 1;
     width : 100%;
-    height:1000px
+    min-height:1000px
 }
 </style>

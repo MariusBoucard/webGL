@@ -1,59 +1,83 @@
 <!-- Record chord component -->
 <template>
-<div>
     <div>
+        <div>
+
+            <div class="custom-container">
+                <!-- {{ this.currentTime }} -->
+                <audio class="" :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
+                    <source src="audioSrc" type="audio/mpeg">
+                </audio>
+                <!-- Button for recording lines -->
+                <button class="button" @click="recordChord()">Recording</button>
+            </div>
+            <div class="column-container">
+                <div class="column2">
+                    <ul>
+                        <li v-for="line in linesNickel">
+                            <div class="chords-container">
+                                <div class="chord" @contextmenu="event => handleContextMenu(event, chord)"
+                                    v-for="chord in getChordLine(line)">{{ chord.chord }}</div>
+                            </div>
+                            <div class="text">{{ line.text }}</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="column2">
+                    <chordsComponent @setAssociation="setAsso($event)" @newAssociation="passAsso($event)"
+                        :association="association"></chordsComponent>
+                </div>
+            </div>
+
             <!-- Lecteur -->
-            <audio :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
-            <source src="audioSrc" type="audio/mpeg">
-        </audio>
-        <!-- Liste des paroles -->
-        <ul>
-            <li></li>
-        </ul>
+
+            <!-- Liste des paroles -->
+
+        </div>
+        <div>
+
+
+
+        </div>
     </div>
-   <div>
-       <button @click="recordChord()">Recording</button>
-       {{ this.recording }}
-       {{ this.chordList }}
-       {{ this.lineTime }}
-       {{ this.chansonStore }}
-       <ul>
-        <li v-for="line in linesNickel">
-            {{ line }}
-        </li>
-       </ul>
-   </div>
-</div>
 </template>
+
 <script>
 import { SongCore } from '@/utils/songCore';
 import { getChansonStore } from '../store/chansonStore'
-export default{
-    data(){
+import chordsComponent from '../widget/chordsComponent.vue'
+
+export default {
+    components: {
+        chordsComponent,
+
+    },
+    data() {
         return {
-            recording : false,
-            songCore : new SongCore(),
-            chansonStore : undefined,
-            currentTime :0,
-            chordList : [],
-            lineTime : []
+            recording: false,
+            songCore: new SongCore(),
+            chansonStore: undefined,
+            currentTime: 0,
+
         }
     },
-    props : {
-        association : {required : true, type : [Object]},
+    props: {
+        association: { required: true, type: [Object] },
         audioSrc: { required: true },
         lines: { required: true, type: [Object] },
+        lineTime: { required: true, type: [Object] },
+        chordList: { required: true, type: [Object] }
     },
-    mounted(){
+    mounted() {
         this.audioPlayer = this.$refs.audioPlayer; // Assign the audio player reference on mount
         this.chansonStore = getChansonStore()
     },
-    computed : {
-        playingIndex(){
-                return 'dada'
+    computed: {
+        playingIndex() {
+            return 'dada'
         },
-        linesNickel(){
-             // Create a map to store objects from the first array by their id
+        linesNickel() {
+            // Create a map to store objects from the first array by their id
             const map = new Map();
             console.log(this.lines)
             this.lines.forEach(obj => {
@@ -70,57 +94,160 @@ export default{
                 return obj2; // If there's no corresponding obj1, just keep obj2
             });
             //Add the missing chord lines
-                    this.lines.forEach(obj1 => {
+            this.lines.forEach(obj1 => {
                 if (!mergedArray.find(ob => ob.index === obj1.index)) {
                     mergedArray.push(obj1);
                 }
-    });
+            });
 
 
-    return mergedArray;
-           
+            return mergedArray;
+
         }
     },
-    methods : {
-        recordChord(){
-            if(this.recording){
+    methods: {
+        //Fonction pour remove un accord
+        handleContextMenu(event, chord) {
+            event.preventDefault
+            this.$emit('removeChord', chord)
+        },
+        recordChord() {
+            if (this.recording) {
                 this.recording = false
                 document.removeEventListener('keydown', this.addNewChord);
             }
-            else{
+            else {
                 this.recording = true
                 document.addEventListener('keydown', this.addNewChord);
             }
         },
-        updateCurrentTime(){
+        updateCurrentTime() {
             this.currentTime = this.$refs.audioPlayer.currentTime
             //recuperation du current time and renvoi le tableau des lignes qui vont bien
         },
-        addNewChord(keyStroke){
+        addNewChord(keyStroke) {
             //Itere sur les keystrokes qu'on a
             console.log(keyStroke)
             console.log(this.association)
             const asso = this.association.find(asso => asso.touche === keyStroke.keyCode)
-            if(asso){
+            if (asso) {
                 console.log(asso)
-                this.songCore.addChord({ chord : asso.chord, time: this.currentTime })
-                 this.chordList = this.songCore.getChordList()
-                this.lineTime = this.songCore.computeTimeStampLine()
+                this.songCore.addChord({ chord: asso.chord, time: this.currentTime })
+                this.$emit('updateChord')
+                //  this.chordList = this.songCore.getChordList()
+                //this.lineTime = this.songCore.computeTimeStampLine()
             }
 
         },
-
-        getChordLine(line){
+        passAsso(evt) {
+            this.$emit('newAssociation', evt)
+        },
+        setAsso(evt) {
+            this.$emit('setAssociation', evt)
+        },
+        getChordLine(line) {
             // this.lineTime = this.songCore.computeTimeStampLine()
-            const timeLine = this.lineTime.find(li => line === li.lineId)
+            console.log('caca', this.lineTime)
+            const timeLine = this.lineTime.find(li => line.index === li.lineId)
             console.log(timeLine)
-            if(timeLine){
-               return timeLine
+            if (timeLine) {
+                const filteredChords = this.chordList.filter(chord => chord.time > timeLine.lineDeb && chord.time < timeLine.lineFin);
+                return filteredChords
             }
-              
+
         }
     }
 }
 </script>
-<style>
-</style>
+<style scoped>
+.column-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.column2 {
+    flex-grow: 1;
+    background-color: #e0e0e0;
+    /* Grey background color */
+    margin: 0 10px;
+    /* Add some spacing between columns */
+    width: 50%;
+}
+
+.custom-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+audio {
+    flex-grow: 1;
+    /* Allow the audio element to take remaining space */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    /* Arrange chord and text in a column */
+    align-items: flex-start;
+    /* Align items to the start of the list item */
+    margin-bottom: 10px;
+    margin-left: 10px
+        /* Add spacing between list items */
+}
+
+.chords-container {
+    display: flex;
+    /* Display chord elements side by side */
+}
+
+.chord {
+    font-size: 14px;
+    color: #333;
+    padding-right: 10px;
+    /* Add spacing between chords and text */
+}
+
+.text {
+    font-size: 14px;
+    color: #666;
+    align-self: flex-start
+        /* Align text to the bottom of the list item */
+}
+
+.chord-container {
+    display: flex;
+    align-items: center;
+    background-color: #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chord {
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.text {
+    font-size: 16px;
+    color: #333;
+}</style>

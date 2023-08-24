@@ -1,9 +1,12 @@
 export class UserStore{
     constructor(){
-        this.chordsInUse = [
-            { chord : 'Em', key : 'E' },
-            { chord : 'A', key : 'A' },
-    ]
+        this.association = [ ]
+    }
+    setAssociation(asso){
+        this.association = asso
+    }
+    getAssociation(){
+        return this.association
     }
 }
 

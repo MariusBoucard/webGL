@@ -1,45 +1,47 @@
 <template>
   <div>
-    <h1>Choix accord</h1>
-    <p>{{ accord }}</p>
+    <div class="container">
+    <h1 class="title">Choix accord</h1>
+    <p class="accord">{{ accord }}</p>
+  </div>
     <div>
-      <p>Case de départ</p>
-      <div class="grid-item">
-
-          <button @click="this.changeCaseDepart(-1)">-</button>
-          {{ this.caseDepart }}
-          <button @click="this.changeCaseDepart(1)">+</button>
-       </div>
+      
     </div>
     <div class="grid-container">
-      <div class="grid-item">
-        <p>Nombre cordes</p>
-        <div>
-          <button @click="this.changeLineNumber(-1)">-</button>
-          {{ this.strings }}
-          <button @click="this.changeLineNumber(1)">+</button>
-        </div>
-        <p>Accordage</p>
-        <div class="horizontal-line">
-            <select v-for="index in strings" :key="index" @change="handleSelectChange(index-1,$event.target.value)">
-              <option :selected="tuning[index-1] === note" v-for="note in notes" :value=note>{{ note }}</option>
-
-            </select>
-          </div>
-
-      </div>
-      <div class="grid-item">
-        <p>Nombre frettes</p>
-        <div>
-          <button @click="this.changeNumberFrets(-1)">-</button>
-          {{ this.frets }}
-          <button @click="this.changeNumberFrets(1)">+</button>
-        </div>
+    <div class="grid-item">
+      <p>Case de départ</p>
+      <div class="horizontal-line">
+        <button class="button" @click="changeCaseDepart(-1)">-</button>
+        {{ caseDepart }}
+        <button class="button" @click="changeCaseDepart(1)">+</button>
       </div>
     </div>
+    <div class="grid-item">
+      <p>Nombre cordes</p>
+      <div class="horizontal-line">
+        <button class="button" @click="changeLineNumber(-1)">-</button>
+        {{ strings }}
+        <button class="button" @click="changeLineNumber(1)">+</button>
+      </div>
+      <p>Accordage</p>
+      <div class="horizontal-line">
+        <select v-for="index in strings" :key="index" @change="handleSelectChange(index-1,$event.target.value)">
+          <option :selected="tuning[index-1] === note" v-for="note in notes" :value=note>{{ note }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-item">
+      <p>Nombre frettes</p>
+      <div class="horizontal-line">
+        <button class="button" @click="changeNumberFrets(-1)">-</button>
+        {{ frets }}
+        <button class="button" @click="changeNumberFrets(1)">+</button>
+      </div>
+    </div>
+  </div>
     <div class="container-grid">
       <div class="leftColumn">
-        <div :style="getStringStyle" v-for="a in strings">{{ tuning[a-1] }}</div>
+        <div :style="getStringStyle" style="color : white" v-for="a in strings">{{ tuning[a-1] }}</div>
       </div>
       <div  class="rightColumn" :style="gridStyle">
         <div v-for="s in cases" @click="selectFret(s)" class="cell"> 
@@ -48,20 +50,20 @@
         
       </div>
     </div>
-    <div>
-      <button @click="finishChord()">Sauvegarder</button>
+    <div style="align-items: center;text-align: center;">
+      <button class="button save" @click="finishChord()">Sauvegarder</button>
     </div>
 
   </div>
 </template>
-<style>
+<style scoped>
 .container-grid {
   display: grid;
   grid-template-columns: 5% 95%;
 }
 
 .leftColumn {
-  background-color: lightgray; /* Background color for the left column */
+  background-color: #3498db;/* Background color for the left column */
 }
 
 .rightColumn {
@@ -70,17 +72,41 @@
   gap: 1px; /* Gap between cells */
 }
 .grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* Equal distribution of space */
-  gap: 10px;
-  /* Gap between columns */
-}
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; /* Add some space between columns */
+      max-width: 800px; /* Adjust as needed */
+      margin: 0 auto; /* Center the grid horizontally */
+    }
 
-.grid-item {
-  border: 1px solid #000;
-  padding: 10px;
-}
+    .grid-item {
+      padding: 20px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+    }
+
+    .button {
+      padding: 5px 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .horizontal-line {
+      display: flex;
+      align-items: center;
+    }
+    .save{
+      margin:10px;
+    }
+    select {
+      margin-left: 10px;
+      padding: 5px;
+      border-radius: 5px;
+    }
 
 .cell {
   height: 30px;
@@ -89,7 +115,7 @@
   border-top: 1px solid #000;
   padding: 10px;
   text-align: center;
-  background-color: white;
+  background-color: #52525200;
   border-top: none;
   position: relative;
   overflow: hidden;
@@ -122,6 +148,27 @@
   width: 50%;
   margin: auto;
 }
+
+.container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .accord {
+      display: inline-block;
+      font-size: 36px;
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px; /* Rounded shape */
+    }
 </style>
 <script>
 import { popScopeId } from 'vue';

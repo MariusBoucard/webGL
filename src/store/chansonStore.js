@@ -8,6 +8,18 @@ export class ChansonStore{
         this.timeStamp = []
         this.audioSrc = undefined
     }
+    getLyrics(){
+        return this.lyrics
+    }
+    setChanson(chanson){
+        this.title = chanson.title
+        this.audio = chanson.audio
+        this.lyrics = chanson.lyrics
+        this.chordList = chanson.chordList
+        this.lyricsLineSplit = chanson.lyricsLineSplit
+        this.timeStamp = chanson.timeStamp
+        this.audioSrc = chanson.audioSrc
+    }
     setTitle(title){
         this.title = title
     }

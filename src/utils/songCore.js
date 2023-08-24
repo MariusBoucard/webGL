@@ -4,8 +4,12 @@ export class SongCore{
     constructor(){
         this.chansonStore = getChansonStore()
     }
-    loadSong(){
-        //TODO brancher avec la fonction de base : plus simple de store dans le main
+
+    setChanson(song){
+        this.chansonStore.setChanson(song)
+    }
+    getChanson(){
+        return this.chansonStore
     }
     changeName(name){
         this.chansonStore.setTitle(name)
@@ -73,5 +77,8 @@ export class SongCore{
     }
     removeTimeStamp(id){
         
+    }
+    getLyrics(){
+        return this.chansonStore.getLyrics()
     }
 }
