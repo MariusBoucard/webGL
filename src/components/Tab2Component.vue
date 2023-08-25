@@ -39,7 +39,7 @@
 
                 </div>
                 <div>
-                    <chordsComponent @setAssociation="setAsso($event)" @newAssociation="passAsso($event)" :association="association"></chordsComponent>
+                    <chordsComponent @removeAssociation="removeAsso($event)" @setAssociation="setAsso($event)" @newAssociation="passAsso($event)" :association="association"></chordsComponent>
 
                 </div>
             </div>
@@ -114,6 +114,9 @@ export default {
         },
         setAsso(evt){
             this.$emit('setAssociation',evt)
+        },
+        removeAsso(evt){
+            this.$emit('removeAssociation',evt)
         },
         /**
         * CurrentLine

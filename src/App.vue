@@ -20,10 +20,10 @@
       <Tab1Component :parole="paroles" @songLoaded="newSongLoaded($event)" @newParoles="updateParoles($event)"></Tab1Component>
     </div>
     <div v-if="currentTab === 2"> 
-      <Tab2Component @updateTimeStamp="setTimeStamp()" @setAssociation="setAssociation($event)" :audioSrc="audioSrc" @newAssociation="addAssociation($event)" :timeStampLines="timeStampLines" :association="association" :lines="lines"></Tab2Component>  
+      <Tab2Component @removeAssociation="removeAsso($event)" @updateTimeStamp="setTimeStamp()" @setAssociation="setAssociation($event)" :audioSrc="audioSrc" @newAssociation="addAssociation($event)" :timeStampLines="timeStampLines" :association="association" :lines="lines"></Tab2Component>  
     </div>
     <div  v-if="currentTab === 3"> 
-      <Tab3Component @removeChord="removeChord($event)" @updateChord="updateChord()" :chordList="chordList" :lineTime="timeStampLines" :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
+      <Tab3Component @removeAssociation="removeAsso($event)" @removeChord="removeChord($event)" @updateChord="updateChord()" :chordList="chordList" :lineTime="timeStampLines" :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
     </div>
   
   </div>
@@ -47,6 +47,10 @@ export default {
 
   },
   methods: {
+    removeAsso(evt){
+        this.association = this.association.filter(ass => ass !== evt)
+        this.userCore.setAssociation(this.association)
+    },
     setTimeStamp(){
       this.timeStampLines = this.songCore.computeTimeStampLine()
       this.saveLocal()

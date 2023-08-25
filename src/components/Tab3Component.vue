@@ -12,9 +12,11 @@
                 <button class="button" :class="{ active: recording }" @click="recordChord()">Recording</button>
             </div>
 
-            <div class="chordContainer">
-                <div v-for="chord in diffChords">
-                    <chordDisplay v-if="chord.accord" :chord=chord.accord></chordDisplay>
+            <div class="chordContainers">
+                <div v-for="chord in diffChords" >
+                    <div class="chordWrapp">
+                        <chordDisplay v-if="chord.accord" :chord=chord.accord></chordDisplay>
+                    </div>
 
                 </div>
             </div>
@@ -32,7 +34,7 @@
                     </ul>
                 </div>
                 <div class="column2">
-                    <chordsComponent @setAssociation="setAsso($event)" @newAssociation="passAsso($event)"
+                    <chordsComponent @removeAssociation="removeAsso($event)" @setAssociation="setAsso($event)" @newAssociation="passAsso($event)"
                         :association="association"></chordsComponent>
                 </div>
             </div>
@@ -132,6 +134,9 @@ export default {
         }
     },
     methods: {
+        removeAsso(evt){
+            this.$emit('removeAssociation',evt)
+        },
         getChordStyle(chord) {
             const positionPercentage = ((chord.time - chord.debDiv) / (chord.finDiv - chord.debDiv)) * 100;
             const marginLeft = positionPercentage + '%';
@@ -197,10 +202,15 @@ export default {
 }
 </script>
 <style scoped>
-.chordContainer {
+.chordContainers {
+    display: flex; /* Use flexbox to align horizontally */
     height: 200px;
     width: 100%;
     background-color: #333;
+}
+.chordWrapp {
+    width:300px;
+    height:200px
 }
 
 .column-container {

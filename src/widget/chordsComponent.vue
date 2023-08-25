@@ -5,12 +5,13 @@
   </div> 
   <div class="container">
     <input class="input" type="text" v-model="currentChord" placeholder="Chord to Add"/>
-    <button class="button" @click="addAssociation()">Pret à cliquer</button>
+    <button class="button" :class="{ active : associer }" @click="addAssociation()">Pret à cliquer</button>
   </div>
   <div class="container">
       
       <ul class="list">
                 <li v-for="chord in association" :key="chord" class="list-item">
+                  <button class="removeButton" @click="removeAssociation(chord)">Enlever accord</button>
                     <span class="chord">{{ chord.chord }}</span>
                     <span class="key"> touche : {{ getKeyFromNumber(chord.touche) }}</span>
                     <button class="button" @click="attributeChord(chord)">Jeu accord</button>
@@ -34,7 +35,8 @@ export default{
         return {
             currentChord: '',
             displayChordCreation : false,
-            chordEngaged : ''
+            chordEngaged : '',
+            associer : false
         };
     },
     methods: {
@@ -50,7 +52,6 @@ export default{
             this.chordEngaged = chord
         },
         newAssociation(event) {
-            this.associer = true;
             // Assuming you want the ASCII code of the pressed key
             this.associer = false;
             this.$emit('newAssociation', { chord: this.currentChord, touche: event.keyCode });
@@ -60,12 +61,19 @@ export default{
          * Get event and then attribute and push
          */
         addAssociation() {
+          if(!this.associer){
             this.associer = true;
-            console.log("addassociaiton");
             document.addEventListener('keydown', this.newAssociation);
+          }
+          else{
+            this.associer = false
+            document.removeEventListener('keydown', this.newAssociation);
+          }
         },
         removeAssociation(id) {
             console.log("removeassociation");
+            this.$emit('removeAssociation', id);
+
         },
         getKeyFromNumber(num){
             return String.fromCharCode(num);
@@ -75,6 +83,14 @@ export default{
 }
 </script>
 <style scoped>
+.removeButton{
+  padding : 5px;
+  background-color: rgb(255, 142, 142);
+  color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+}
     .container {
       width: 100%;
       text-align: center; /* Center-align the content horizontally */
@@ -128,4 +144,8 @@ export default{
       border-radius: 5px;
       cursor: pointer;
     }
+    .active {
+  background-color: grey; /* Customize the active state background color */
+  /* You can add more styles for the active state here */
+}
 </style>
