@@ -96,6 +96,8 @@ export default {
         const parsedSongData = JSON.parse(storedSongData);
         this.songCore.setChanson(parsedSongData);
         this.lines = this.chansonStore.getLines()
+        this.paroles = this.chansonStore.lyrics
+        console.log(this.paroles)
         console.log("lines",this.lines)
         this.timeStampLines = this.songCore.computeTimeStampLine()
         this.chordList = this.chansonStore.getChordList()

@@ -76,7 +76,7 @@ export class SongCore{
         return //le numero de la ligne
     }
     removeTimeStamp(id){
-        
+        this.chansonStore.removeTimeStamp(id)
     }
     getLyrics(){
         return this.chansonStore.getLyrics()

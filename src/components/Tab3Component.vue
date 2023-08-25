@@ -17,7 +17,8 @@
                         <li v-for="line in linesNickel">
                             <div class="chords-container">
                                 <div class="chord" @contextmenu="event => handleContextMenu(event, chord)"
-                                    v-for="chord in getChordLine(line)">{{ chord.chord }}</div>
+                                    v-for="chord in getChordLine(line)"
+                                    :style="getChordStyle(chord)">{{ chord.chord }}</div>
                             </div>
                             <div class="text">{{ line.text }}</div>
                         </li>
@@ -106,10 +107,16 @@ export default {
         }
     },
     methods: {
+        getChordStyle(chord){
+            const positionPercentage = ((chord.time - chord.debDiv) / (chord.finDiv - chord.debDiv)) * 100;
+            const marginLeft = positionPercentage + '%';
+            return {
+                marginLeft : marginLeft
+            }
+        },
         //Fonction pour remove un accord
         handleContextMenu(event, chord) {
-            event.preventDefault
-            this.$emit('removeChord', chord)
+             this.$emit('removeChord', chord)
         },
         recordChord() {
             if (this.recording) {
@@ -152,6 +159,11 @@ export default {
             console.log(timeLine)
             if (timeLine) {
                 const filteredChords = this.chordList.filter(chord => chord.time > timeLine.lineDeb && chord.time < timeLine.lineFin);
+                filteredChords.forEach(cho => {
+                    cho.debDiv = timeLine.lineDeb;
+                    cho.finDiv = timeLine.lineFin;
+
+                } )
                 return filteredChords
             }
 

@@ -21,8 +21,8 @@
             <div class="column">
                 <ul>
                     <li v-for="line in lines" :key="line" class="list-item">
-                        <span class="timestamp-left">{{ getTimeStampDebut(line.index) }}</span>
-                        <span class="timestamp-right">{{ getTimeStampFin(line.index) }}</span>
+                        <span @contextmenu="event => removeTimeStamp(event, getTimeStampDebut(line.index))" class="timestamp-left">{{ getTimeStampDebut(line.index) }}</span>
+                        <span  @contextmenu="event => removeTimeStamp(event, getTimeStampFin(line.index))" class="timestamp-right">{{ getTimeStampFin(line.index) }}</span>
                         <div class="text">{{ line.text }}</div>
                     </li>
                 </ul>
@@ -160,6 +160,14 @@ export default {
             } else {
                 document.removeEventListener('keydown', this.addTimeStamp);
             }
+        },
+        removeTimeStamp(event,time){
+            event.preventDefault
+
+            this.songCore.removeTimeStamp(time)
+
+            this.$emit('updateTimeStamp')
+
         },
         addTimeStamp(event) {
             console.log(event.keyCode)

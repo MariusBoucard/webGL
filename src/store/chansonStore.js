@@ -47,6 +47,9 @@ export class ChansonStore{
     addTimeStamp(timeStamp){
         this.timeStamp.push(timeStamp)
     }
+    removeTimeStamp(timeStamp){
+        this.timeStamp = this.timeStamp.filter(ti => !ti.toString().includes(timeStamp.toString()))
+    }
     getTimeStamp(){
         return this.timeStamp
     }

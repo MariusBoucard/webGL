@@ -17,6 +17,12 @@ import { getChansonStore } from '@/store/chansonStore';
 
 
 export default{
+  watch : {
+    parole(newValue){
+      this.paroles = newValue
+    }
+
+  },
    props :{
     parole : { required : true}
    },
