@@ -9,7 +9,14 @@
                     <source src="audioSrc" type="audio/mpeg">
                 </audio>
                 <!-- Button for recording lines -->
-                <button class="button" @click="recordChord()">Recording</button>
+                <button class="button" :class="{ active: recording }" @click="recordChord()">Recording</button>
+            </div>
+
+            <div class="chordContainer">
+                <div v-for="chord in diffChords">
+                    <chordDisplay v-if="chord.accord" :chord=chord.accord></chordDisplay>
+
+                </div>
             </div>
             <div class="column-container">
                 <div class="column2">
@@ -17,8 +24,8 @@
                         <li v-for="line in linesNickel">
                             <div class="chords-container">
                                 <div class="chord" @contextmenu="event => handleContextMenu(event, chord)"
-                                    v-for="chord in getChordLine(line)"
-                                    :style="getChordStyle(chord)">{{ chord.chord }}</div>
+                                    v-for="chord in getChordLine(line)" :style="getChordStyle(chord)">{{ chord.chord }}
+                                </div>
                             </div>
                             <div class="text">{{ line.text }}</div>
                         </li>
@@ -47,10 +54,11 @@
 import { SongCore } from '@/utils/songCore';
 import { getChansonStore } from '../store/chansonStore'
 import chordsComponent from '../widget/chordsComponent.vue'
-
+import chordDisplay from '@/widget/chordDisplay.vue';
 export default {
     components: {
         chordsComponent,
+        chordDisplay
 
     },
     data() {
@@ -74,6 +82,23 @@ export default {
         this.chansonStore = getChansonStore()
     },
     computed: {
+        diffChords() {
+            const unik = this.chordList.reduce((result, chordObj) => {
+                if (!result.some(item => item.chord === chordObj.chord)) {
+                    result.push(chordObj.chord);
+                }
+                return result;
+            }, []);
+            console.log(this.association)
+            let yolo = []
+            this.association.forEach(asso => {
+                if (unik.includes(asso.chord)) {
+                    yolo.push(asso)
+                }
+            })
+
+            return yolo
+        },
         playingIndex() {
             return 'dada'
         },
@@ -107,16 +132,16 @@ export default {
         }
     },
     methods: {
-        getChordStyle(chord){
+        getChordStyle(chord) {
             const positionPercentage = ((chord.time - chord.debDiv) / (chord.finDiv - chord.debDiv)) * 100;
             const marginLeft = positionPercentage + '%';
             return {
-                marginLeft : marginLeft
+                marginLeft: marginLeft
             }
         },
         //Fonction pour remove un accord
         handleContextMenu(event, chord) {
-             this.$emit('removeChord', chord)
+            this.$emit('removeChord', chord)
         },
         recordChord() {
             if (this.recording) {
@@ -163,7 +188,7 @@ export default {
                     cho.debDiv = timeLine.lineDeb;
                     cho.finDiv = timeLine.lineFin;
 
-                } )
+                })
                 return filteredChords
             }
 
@@ -172,11 +197,29 @@ export default {
 }
 </script>
 <style scoped>
+.chordContainer {
+    height: 200px;
+    width: 100%;
+    background-color: #333;
+}
+
 .column-container {
     display: flex;
     align-items: center;
     padding: 10px;
     width: 100%;
+}
+.chordContainer {
+  display: flex; /* Use flexbox to align horizontally */
+  flex-wrap: nowrap; /* Prevent wrapping of elements to new lines */
+  gap: 10px; /* Add spacing between chordDisplay components */
+}
+
+/* Style the chordDisplay component */
+.chordDisplay {
+  width: 200px;
+  height: 200px;
+  /* Add more styles as needed */
 }
 
 .column2 {
@@ -257,6 +300,12 @@ li {
 .chord {
     font-size: 14px;
     margin: 0 5px;
+}
+
+.active {
+    background-color: grey;
+    /* Customize the active state background color */
+    /* You can add more styles for the active state here */
 }
 
 .text {

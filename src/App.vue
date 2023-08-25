@@ -2,9 +2,9 @@
   <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <div>
     <div class="button-container"> 
-         <button class="button" @click="currentTab =1">1</button>
-    <button class="button" @click="currentTab =2">2</button>
-    <button class="button" @click="currentTab =3">3</button>
+      <button class="button" :class="{ active: currentTab === 1 }" @click="currentTab = 1">1</button>
+          <button class="button"  :class="{ active: currentTab === 2 }" @click="currentTab =2">2</button>
+    <button class="button"  :class="{ active: currentTab === 3 }"  @click="currentTab =3">3</button>
 
   </div>
   <div class="custom-container">
@@ -25,7 +25,7 @@
     <div  v-if="currentTab === 3"> 
       <Tab3Component @removeChord="removeChord($event)" @updateChord="updateChord()" :chordList="chordList" :lineTime="timeStampLines" :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
     </div>
-    pute
+  
   </div>
 </template>
 
@@ -199,4 +199,8 @@ export default {
     .button:hover {
       background-color: #2980b9;
     }
+    .active {
+  background-color: grey; /* Customize the active state background color */
+  /* You can add more styles for the active state here */
+}
 </style>

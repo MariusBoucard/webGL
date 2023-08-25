@@ -6,7 +6,7 @@
                 <source src="audioSrc" type="audio/mpeg">
             </audio>
             <!-- Button for recording lines -->
-            <button class="custom-input-style" @click="changeRecording()">record de line</button>
+            <button class="custom-input-style" :class="{ active : recording }" @click="changeRecording()">record de line</button>
         </div>
         
         <div>
@@ -43,33 +43,16 @@
 
                 </div>
             </div>
-            <div  class="column third-column">
-                
-
-            </div>
+            
         </div>
 
-        <div class="container">
-            <div class='column'>
-                <!-- {{ this.currentTime }}
-            <audio :src="audioSrc" ref="audioPlayers" controls @timeupdate="updateCurrentTime">
-                <source src="audioSrc" type="audio/mpeg">
-            </audio>
-            <button @click="changeRecording()">record de line</button>
-             -->
-            </div>
-            <div class="column">
-
-                <hr>
-
-
-            </div>
+       
 
             <!-- <ul>
             <li v-for="time in timeStampLines" :key="time"> {{ time }}</li>
         </ul> -->
         </div>
-    </div>
+
 </template>
 <script>
 import { SongCore } from '@/utils/songCore';
@@ -299,4 +282,8 @@ export default {
       pointer-events: none; /* Allow interaction with main item */
       border-radius: 5px;
     }
+    .active {
+  background-color: grey; /* Customize the active state background color */
+  /* You can add more styles for the active state here */
+}
 </style>
