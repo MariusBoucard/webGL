@@ -122,7 +122,7 @@ export default {
         * CurrentLine
         */
         updateCurrentTime() {
-            this.currentTime = this.$refs.audioPlayers.currentTime
+            this.currentTime = this.audioPlayer.currentTime
             //recuperation du current time and renvoi le tableau des lignes qui vont bien
 
         },

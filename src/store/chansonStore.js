@@ -7,9 +7,16 @@ export class ChansonStore{
         this.lyricsLineSplit = []
         this.timeStamp = []
         this.audioSrc = undefined
+        this.auteur = ''
     }
     getLyrics(){
         return this.lyrics
+    }
+    setAuteur(aut){
+        this.auteur = aut
+    }
+    getAuteur(){
+        return this.auteur
     }
     setChanson(chanson){
         this.title = chanson.title
@@ -19,9 +26,13 @@ export class ChansonStore{
         this.lyricsLineSplit = chanson.lyricsLineSplit
         this.timeStamp = chanson.timeStamp
         this.audioSrc = chanson.audioSrc
+        this.auteur = chanson.auteur
     }
     setTitle(title){
         this.title = title
+    }
+    getTitle(){
+        return this.title
     }
     setAudio(audio){
         this.audio = audio
@@ -38,6 +49,10 @@ export class ChansonStore{
     addChord(chord){
         this.chordList.push(chord)
     }
+    
+setChordList(li){
+    this.chordList=li
+}
     getChordList(){
         return this.chordList
     }

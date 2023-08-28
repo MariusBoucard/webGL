@@ -17,13 +17,13 @@
 
     <div v-if="currentTab ===1"> 
 
-      <Tab1Component :parole="paroles" @songLoaded="newSongLoaded($event)" @newParoles="updateParoles($event)"></Tab1Component>
+      <Tab1Component :title="title" :auteur="auteur" @changeAuteur="changeAuteur($event)" @changeTitle="changeTitle($event)" :parole="paroles" @songLoaded="newSongLoaded($event)" @newParoles="updateParoles($event)"></Tab1Component>
     </div>
     <div v-if="currentTab === 2"> 
       <Tab2Component @removeAssociation="removeAsso($event)" @updateTimeStamp="setTimeStamp()" @setAssociation="setAssociation($event)" :audioSrc="audioSrc" @newAssociation="addAssociation($event)" :timeStampLines="timeStampLines" :association="association" :lines="lines"></Tab2Component>  
     </div>
     <div  v-if="currentTab === 3"> 
-      <Tab3Component @removeAssociation="removeAsso($event)" @removeChord="removeChord($event)" @updateChord="updateChord()" :chordList="chordList" :lineTime="timeStampLines" :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
+      <Tab3Component @removeAssociation="removeAsso($event)" @removeChord="removeChord($event)" @updateChord="updateChord()" :chordList="chordList" @newAssociation="addAssociation($event)" @setAssociation="setAssociation($event)" :lineTime="timeStampLines" :lines="lines" :audioSrc="audioSrc" :association="association"></Tab3Component>
     </div>
   
   </div>
@@ -105,10 +105,14 @@ export default {
         console.log("lines",this.lines)
         this.timeStampLines = this.songCore.computeTimeStampLine()
         this.chordList = this.chansonStore.getChordList()
+        this.title = this.chansonStore.getTitle()
+        this.auteur = this.chansonStore.getAuteur()
   }
     },
     removeChord(chord){
       this.chordList = this.chordList.filter(cho => cho !== chord)
+      this.chansonStore.setChordList(this.chordList)
+      this.saveLocal()
     },
     addAssociation(evt){
       this.association.push(evt)
@@ -117,11 +121,22 @@ export default {
     },
     setAssociation(evt){
       this.association = evt
+      console.log(this.association)
       this.userCore.setAssociation(this.association)
       this.saveLocal()
     },
     addLineStamp(evt){
       
+    },
+    changeTitle(title){
+      this.title = title
+      this.chansonStore.setTitle(this.title)
+      this.saveLocal()
+    },
+    changeAuteur(title){
+      this.auteur = title
+      this.chansonStore.setAuteur(this.auteur)
+      this.saveLocal()
     }
   },
   data() {
@@ -135,7 +150,9 @@ export default {
       audioSrc : undefined,
       userCore : new UserCore(),
       timeStampLines : [],
-      chordList : []
+      chordList : [],
+      title : '',
+      auteur : ''
     }
   },
   created() {

@@ -113,7 +113,7 @@ export default {
 }
 
 .cell {
-  height: 20px;
+  height: 5px;
   border-left: 1px solid #000;
   border-right: 1px solid #000;
   border-top: 1px solid #000;
@@ -148,7 +148,9 @@ export default {
 .dot {
   border-radius: 50%;
   background-color: black;
-  height: 100%;
+  height: 400%;
+  transform: translateY(-35%);
+
   width: 100%;
   margin: auto;
 }

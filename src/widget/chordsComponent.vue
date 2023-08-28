@@ -54,6 +54,7 @@ export default{
         newAssociation(event) {
             // Assuming you want the ASCII code of the pressed key
             this.associer = false;
+            console.log("associé")
             this.$emit('newAssociation', { chord: this.currentChord, touche: event.keyCode });
             document.removeEventListener('keydown', this.newAssociation);
         },

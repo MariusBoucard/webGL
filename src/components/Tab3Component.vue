@@ -2,7 +2,6 @@
 <template>
     <div>
         <div>
-
             <div class="custom-container">
                 <!-- {{ this.currentTime }} -->
                 <audio class="" :src="audioSrc" ref="audioPlayer" controls @timeupdate="updateCurrentTime">
@@ -25,7 +24,7 @@
                     <ul>
                         <li v-for="line in linesNickel">
                             <div class="chords-container">
-                                <div class="chord" @contextmenu="event => handleContextMenu(event, chord)"
+                                <div class="chord" @contextmenu.stop="event => handleContextMenu(event, chord)"
                                     v-for="chord in getChordLine(line)" :style="getChordStyle(chord)">{{ chord.chord }}
                                 </div>
                             </div>
@@ -36,6 +35,11 @@
                 <div class="column2">
                     <chordsComponent @removeAssociation="removeAsso($event)" @setAssociation="setAsso($event)" @newAssociation="passAsso($event)"
                         :association="association"></chordsComponent>
+                        <div style="width: 100%; text-align: center;padding-top: 60px;">
+                            <button class="button" @click="convertTablatureCore()">exporter la partition</button>
+
+                        </div>
+
                 </div>
             </div>
 
@@ -57,6 +61,7 @@ import { SongCore } from '@/utils/songCore';
 import { getChansonStore } from '../store/chansonStore'
 import chordsComponent from '../widget/chordsComponent.vue'
 import chordDisplay from '@/widget/chordDisplay.vue';
+import { convertTablature } from '../core/convert-tab'
 export default {
     components: {
         chordsComponent,
@@ -134,6 +139,18 @@ export default {
         }
     },
     methods: {
+        convertTablatureCore(){
+            console.log(this.linesNickel)
+            //Recuperer le timestamp de debut de fin de chacunes des lignes en plus, puis rajouter dedans leurs accords, avec leur temps
+            //rajout titre et auteur chanson
+            let linebien = this.linesNickel
+            convertTablature({
+                title : this.chansonStore.getTitle(),
+                lineNickel : this.linesNickel,
+                lineTime : this.lineTime,
+                chordList :this.chordList
+            },"fafa")
+        },
         removeAsso(evt){
             this.$emit('removeAssociation',evt)
         },
@@ -204,7 +221,7 @@ export default {
 <style scoped>
 .chordContainers {
     display: flex; /* Use flexbox to align horizontally */
-    height: 200px;
+    height: 300px;
     width: 100%;
     background-color: #333;
 }
@@ -215,7 +232,6 @@ export default {
 
 .column-container {
     display: flex;
-    align-items: center;
     padding: 10px;
     width: 100%;
 }
