@@ -1,0 +1,19 @@
+To use the skybox just put these file in cstrike\gfx\env
+
+If you want to replace standard skybox
+then rename each of 6 files in this archive.
+
+For example, we need to replace "tsccity_" standard skybox,
+then we leave last 2 symbols in the end
+and rename the prefix.
+bnbfl_bk -> tsccity_bk
+bnbfl_up -> tsccity_up
+etc.
+
+Don't foget to make backup of original files
+in order not to lose any of files.
+
+Thanks!
+
+P.S. Skybox was generated with Terragen.
+(c) `Flow
