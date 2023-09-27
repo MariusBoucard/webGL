@@ -5,6 +5,7 @@
 <script>
 import * as THREE from "three";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 export default {
   mounted() {
     const materials =   this.skyboxLoader()
@@ -14,67 +15,72 @@ export default {
     // Create a scene, camera, and renderer
     const scene = new THREE.Scene();
     scene.add(skybox);
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-      );
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      this.$refs.container.appendChild(renderer.domElement);
-      
-      // Create a cube and add it to the scene
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const cube = new THREE.Mesh(geometry, material);
-      // scene.add(cube);
-      // Create a group to hold the loaded model
-const modelGroup = new THREE.Group();
-scene.add(modelGroup);
+    // Create a scene, camera, and renderer
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    this.$refs.container.appendChild(renderer.domElement);
 
-// Define the color you want to apply to the object (e.g., red)
-const newColor = 0xff0000; // Red color
-    const penguin = {}
-const loader = new OBJLoader();
-loader.load("obj/penguin.obj", (object) => {
-  // Iterate through the object's children (meshes)
-  object.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      // Create a new material with the desired color
-      const newMaterial = new THREE.MeshBasicMaterial({ color: newColor });
+    // Initialize OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
 
-      // Assign the new material to the child (mesh)
-      child.material = newMaterial;
-    }
-  });
+    // Customize the controls as needed
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.1;
+    controls.rotateSpeed = 0.5;
+    controls.zoomSpeed = 1.2;
+    controls.panSpeed = 0.3;
 
-  // Add the modified object to the group
-  modelGroup.add(object);
+    // Optionally, set the initial position of the camera
+    camera.position.set(0, 0, 5);
 
-  // Optionally, you can manipulate the model's position, rotation, and scale
-  object.scale.set(1, 1, 1);
+    // Create a group to hold the loaded model
+    const modelGroup = new THREE.Group();
+    scene.add(modelGroup);
 
-});
+    // Define the color you want to apply to the object (e.g., red)
+    const newColor = 0xff0000; // Red color
 
-// Set up the camera position
-camera.position.z = 5;
+    const loader = new OBJLoader();
+    loader.load("obj/penguin.obj", (object) => {
+      // Iterate through the object's children (meshes)
+      object.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          // Create a new material with the desired color
+          const newMaterial = new THREE.MeshBasicMaterial({ color: newColor });
+
+          // const newMaterial = new THREE.MeshStandardMaterial({
+          //   color: newColor, // Base color
+          // //  roughness: 0.7, // Adjust the roughness (0-1)
+          //  // metalness: 0.2, // Adjust the metalness (0-1)
+          // });
+
+          // Assign the new material to the child (mesh)
+          child.material = newMaterial;
+
+              }
+      });
+
+      // Add the modified object to the group
+      modelGroup.add(object);
+
+      // Optionally, you can manipulate the model's position, rotation, and scale
+      object.scale.set(7, 5, 10);
+    });
+        // Set up lighting in your scene
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1); // Adjust the light's position
+    scene.add(directionalLight);
+
     // Create an animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      // modelGroup.children.at(0).rotation.x +=0.11
-      // modelGroup.children.at(0).rotation.y +=0.11
-      // modelGroup.children.at(0).rotation.z +=0.11
 
+      controls.update(); // Update the controls in the animation loop
 
-
-      // Rotate the cube
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      
       renderer.render(scene, camera);
     };
-    
+
     animate();
   },
   computed: {},
